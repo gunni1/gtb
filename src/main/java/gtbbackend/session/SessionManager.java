@@ -1,7 +1,9 @@
-package session;
+package gtbbackend.session;
 
-import domain.UserId;
-import session.persist.SessionRepository;
+import gtbbackend.practice.persist.PracticeRepository;
+import gtbbackend.user.UserId;
+import gtbbackend.practice.Practice;
+import gtbbackend.session.persist.SessionRepository;
 
 import java.util.Optional;
 
@@ -12,6 +14,13 @@ public class SessionManager {
 
     private SessionRepository sessionRepository;
 
+    private PracticeRepository practiceRepository;
+
+    public SessionManager(SessionRepository sessionRepository, PracticeRepository practiceRepository)
+    {
+        this.sessionRepository = sessionRepository;
+        this.practiceRepository = practiceRepository;
+    }
 
     /**
      * Liefert die aktive Sitzung eines Users, sofern eine existiert.
@@ -30,6 +39,7 @@ public class SessionManager {
      * @return
      */
     public SessionCreationResult createSession(UserId userId, Optional<String> title, Optional<String> location) {
+
         return null;
     }
 

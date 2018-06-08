@@ -1,6 +1,6 @@
-package command;
+package gtbbackend.command;
 
-import domain.UserId;
+import gtbbackend.user.UserId;
 
 import java.util.List;
 

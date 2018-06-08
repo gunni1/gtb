@@ -1,8 +1,8 @@
-package command;
+package gtbbackend.command;
 
-import domain.UserId;
-import session.Session;
-import session.SessionManager;
+import gtbbackend.user.UserId;
+import gtbbackend.session.Session;
+import gtbbackend.session.SessionManager;
 
 import java.util.List;
 import java.util.Optional;

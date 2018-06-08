@@ -1,4 +1,4 @@
-package domain;
+package gtbbackend.user;
 
 import java.util.Objects;
 

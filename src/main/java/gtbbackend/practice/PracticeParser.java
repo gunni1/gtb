@@ -1,6 +1,4 @@
-package practice;
-
-import session.Practice;
+package gtbbackend.practice;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -27,7 +25,7 @@ public class PracticeParser
             int reps = Integer.parseInt(tokens.get(1));
             Practice practice = new Practice();
             practice.setReps(reps);
-            practice.setTitle(title);
+            practice.setNameKey(title);
             return new PracticeParseResult(Optional.of(practice));
         }
     }

@@ -1,5 +1,9 @@
-package session;
+package gtbbackend.session;
 
+import gtbbackend.practice.Practice;
+import org.bson.types.ObjectId;
+
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,24 +11,22 @@ import java.util.Optional;
 
 public class SessionBuilder
 {
-    private final String id;
     private final String userId;
-    private ZonedDateTime begin;
+    private LocalTime begin;
     private Optional<String> maybeTitle;
     private Optional<String> maybeLocation;
     private List<Practice> practices;
 
-    public SessionBuilder(String id, String userId)
+    public SessionBuilder(String userId)
     {
-        this.id = id;
         this.userId = userId;
         this.maybeLocation = Optional.empty();
         this.maybeTitle = Optional.empty();
-        this.begin = ZonedDateTime.now();
+        this.begin = LocalTime.now();
         this.practices =  new ArrayList<>();
     }
 
-    public SessionBuilder begin(ZonedDateTime dateTime)
+    public SessionBuilder begin(LocalTime dateTime)
     {
         this.begin = dateTime;
         return this;
@@ -45,7 +47,6 @@ public class SessionBuilder
     public Session build()
     {
         Session session =  new Session();
-        session.setSessionId(id);
         session.setUserId(userId);
         session.setBegin(begin);
         maybeLocation.ifPresent(title -> session.setTitle(title));

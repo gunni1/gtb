@@ -1,25 +1,20 @@
-package session;
+package gtbbackend.practice;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "practices")
+@Document
 public class Practice
 {
     @Id
     private String practiceId;
 
-    @ManyToOne
-    @JoinColumn(name = "sessionId")
     private String sessionId;
 
-    @Column
     private String nameKey;
 
-    @Column
     private Integer reps;
 
-    @Column
     private String duration;
 
     /**

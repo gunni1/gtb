@@ -1,33 +1,28 @@
-package session;
+package gtbbackend.session;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalTime;
 
-@Entity
-@Table(name="sessions")
+@Document
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Session implements Serializable
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String sessionId;
 
-    @Column
     private String userId;
 
-    @Column
     private String location;
 
-    @Column
     private String title;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private ZonedDateTime begin;
-    @Temporal(TemporalType.TIMESTAMP)
-    private ZonedDateTime end;
+    private LocalTime begin;
+    private LocalTime end;
 
     /**
      * Für JPA
@@ -35,7 +30,7 @@ public class Session implements Serializable
     protected Session() {
     }
 
-    public Session(String userId, String location, String title, ZonedDateTime begin, ZonedDateTime end) {
+    public Session(String userId, String location, String title, LocalTime begin, LocalTime end) {
         this.userId = userId;
         this.location = location;
         this.title = title;
@@ -83,21 +78,21 @@ public class Session implements Serializable
         this.title = title;
     }
 
-    public ZonedDateTime getBegin()
+    public LocalTime getBegin()
     {
         return begin;
     }
 
-    public void setBegin(ZonedDateTime begin)
+    public void setBegin(LocalTime begin)
     {
         this.begin = begin;
     }
 
-    public ZonedDateTime getEnd() {
+    public LocalTime getEnd() {
         return end;
     }
 
-    public void setEnd(ZonedDateTime end) {
+    public void setEnd(LocalTime end) {
         this.end = end;
     }
 

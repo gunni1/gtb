@@ -1,4 +1,4 @@
-package session;
+package gtbbackend.session;
 
 /**
  * Fehlerschlüssel zur Sitzungsverwaltung.

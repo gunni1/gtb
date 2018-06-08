@@ -1,6 +1,4 @@
-package practice;
-
-import session.Practice;
+package gtbbackend.practice;
 
 import java.util.Optional;
 

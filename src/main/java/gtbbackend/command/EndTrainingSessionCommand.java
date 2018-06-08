@@ -1,7 +1,7 @@
-package command;
+package gtbbackend.command;
 
-import domain.UserId;
-import session.SessionManager;
+import gtbbackend.user.UserId;
+import gtbbackend.session.SessionManager;
 
 import java.util.List;
 
@@ -23,7 +23,8 @@ public class EndTrainingSessionCommand implements BotCommand
     @Override
     public String executeCommand(UserId userId, List<String> arguments)
     {
-        boolean sessionEnded = sessionManager.endSession(userId);
+        //boolean sessionEnded = sessionManager.endSession(userId);
+        boolean sessionEnded = false;
         if(sessionEnded)
         {
             return "Training beendet.";
