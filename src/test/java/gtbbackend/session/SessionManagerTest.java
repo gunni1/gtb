@@ -15,8 +15,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SessionManagerTest
 {
@@ -55,7 +54,10 @@ public class SessionManagerTest
     @Test
     public void createSessionWithTitleAndLocation()
     {
+        Session savedSession = new SessionBuilder("Karl").location("Kraftraum").title("Training").build();
         when(sessionRepository.findByUserIdAndEndExists(anyString(),anyBoolean())).thenReturn(new ArrayList<>());
+        when(sessionRepository.save(any())).thenReturn(savedSession);
+
         SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
         SessionCreationResult creationResult = manager.createSession(new UserId("Karl"), Optional.of("Training"), Optional.of("Kraftraum"));
 
@@ -67,18 +69,22 @@ public class SessionManagerTest
         assertThat(session.getUserId(),is("Karl"));
         assertThat(session.getLocation(),is("Kraftraum"));
         assertThat(session.getTitle(),is("Training"));
+        verify(sessionRepository).save(any());
     }
 
     @Test
     public void createdSessionHasBeginTimeAndNoEndTime()
     {
+        Session savedSession = new SessionBuilder("Karl").location("Kraftraum").title("Training").build();
         when(sessionRepository.findByUserIdAndEndExists(anyString(),anyBoolean())).thenReturn(new ArrayList<>());
+        when(sessionRepository.save(any())).thenReturn(savedSession);
+
         SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
         SessionCreationResult creationResult = manager.createSession(new UserId("Karl"), Optional.of("Training"), Optional.of("Kraftraum"));
         Session session = creationResult.getMaybeSession().get();
-        assertThat(session.getBegin(),isNotNull());
+        assertThat(session.getBegin(),notNullValue());
         assertThat(session.getBegin().toInstant(ZoneOffset.UTC).toEpochMilli(), greaterThan(0l));
-        assertThat(session.getEnd(), isNull());
+        assertThat(session.getEnd(), nullValue());
     }
 
     @Test
@@ -90,6 +96,7 @@ public class SessionManagerTest
         SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
         SessionCreationResult creationResult = manager.createSession(new UserId("Karl"), Optional.of("Training"), Optional.of("Kraftraum"));
         assertThat(creationResult.getMaybeError().get(),is(SessionError.ALREADY_ACTIVE_SESSION_PRESENT));
+        verify(sessionRepository,never()).save(any());
     }
 
 }

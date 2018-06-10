@@ -45,9 +45,20 @@ public class SessionManager {
      * @param location
      * @return
      */
-    public SessionCreationResult createSession(UserId userId, Optional<String> title, Optional<String> location) {
-
-        return null;
+    public SessionCreationResult createSession(UserId userId, Optional<String> title, Optional<String> location)
+    {
+        Optional<Session> activeSession = getActiveSession(userId);
+        if(activeSession.isPresent())
+        {
+            return SessionCreationResult.byError(SessionError.ALREADY_ACTIVE_SESSION_PRESENT);
+        }
+        else
+        {
+            SessionBuilder sessionBuilder = new SessionBuilder(userId.asString());
+            title.ifPresent(t -> sessionBuilder.title(t));
+            location.ifPresent(l -> sessionBuilder.location(l));
+            return SessionCreationResult.bySuccess(sessionRepository.save(sessionBuilder.build()));
+        }
     }
 
     /**
