@@ -35,7 +35,7 @@ public class Application implements CommandLineRunner
 
         Session session = new SessionBuilder("Karl").location("zuhause").title("training").build();
         Session savedSession = sessionRepository.save(session);
+        sessionRepository.save(new SessionBuilder("Karl").location("blabla").title("training").build());
 
-        Optional<Session> karl = sessionRepository.findByUserIdAndEndExists("Karl", false);
     }
 }

@@ -3,6 +3,7 @@ package gtbbackend.session;
 import gtbbackend.practice.Practice;
 import org.bson.types.ObjectId;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Optional;
 public class SessionBuilder
 {
     private final String userId;
-    private LocalTime begin;
+    private LocalDateTime begin;
     private Optional<String> maybeTitle;
     private Optional<String> maybeLocation;
     private List<Practice> practices;
@@ -22,11 +23,11 @@ public class SessionBuilder
         this.userId = userId;
         this.maybeLocation = Optional.empty();
         this.maybeTitle = Optional.empty();
-        this.begin = LocalTime.now();
+        this.begin = LocalDateTime.now();
         this.practices =  new ArrayList<>();
     }
 
-    public SessionBuilder begin(LocalTime dateTime)
+    public SessionBuilder begin(LocalDateTime dateTime)
     {
         this.begin = dateTime;
         return this;

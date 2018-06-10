@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Document
@@ -21,8 +22,8 @@ public class Session implements Serializable
 
     private String title;
 
-    private LocalTime begin;
-    private LocalTime end;
+    private LocalDateTime begin;
+    private LocalDateTime end;
 
     /**
      * Für JPA
@@ -30,7 +31,7 @@ public class Session implements Serializable
     protected Session() {
     }
 
-    public Session(String userId, String location, String title, LocalTime begin, LocalTime end) {
+    public Session(String userId, String location, String title, LocalDateTime begin, LocalDateTime end) {
         this.userId = userId;
         this.location = location;
         this.title = title;
@@ -78,21 +79,21 @@ public class Session implements Serializable
         this.title = title;
     }
 
-    public LocalTime getBegin()
+    public LocalDateTime getBegin()
     {
         return begin;
     }
 
-    public void setBegin(LocalTime begin)
+    public void setBegin(LocalDateTime begin)
     {
         this.begin = begin;
     }
 
-    public LocalTime getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalTime end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 

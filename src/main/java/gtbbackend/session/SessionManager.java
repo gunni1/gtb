@@ -5,6 +5,7 @@ import gtbbackend.user.UserId;
 import gtbbackend.practice.Practice;
 import gtbbackend.session.persist.SessionRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,7 +29,13 @@ public class SessionManager {
      * @return
      */
     public Optional<Session> getActiveSession(UserId userId) {
-        return null;
+        List<Session> openSessions = sessionRepository.findByUserIdAndEndExists(userId.asString(), false);
+        switch (openSessions.size())
+        {
+            case 0: return Optional.empty();
+            case 1: return Optional.of(openSessions.get(0));
+            default: return Optional.empty(); //Datenschiefstand Error-Behandlung?
+        }
     }
 
     /**

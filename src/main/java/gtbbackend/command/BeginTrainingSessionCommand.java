@@ -38,7 +38,7 @@ public class BeginTrainingSessionCommand implements BotCommand
         }
         else
         {
-            return creationResult.getMaybeError().get();
+            return creationResult.getMaybeError().get().toString();
         }
     }
 }

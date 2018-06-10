@@ -9,15 +9,15 @@ public class SessionCreationResult
 {
     private Optional<Session> maybeSession;
 
-    private Optional<String> maybeError;
+    private Optional<SessionError> maybeError;
 
-    private SessionCreationResult(Optional<Session> maybeSession, Optional<String> maybeError)
+    private SessionCreationResult(Optional<Session> maybeSession, Optional<SessionError> maybeError)
     {
         this.maybeSession = maybeSession;
         this.maybeError = maybeError;
     }
 
-    public static SessionCreationResult byError(String reason)
+    public static SessionCreationResult byError(SessionError reason)
     {
         return new SessionCreationResult(Optional.empty(), Optional.of(reason));
     }
@@ -37,7 +37,7 @@ public class SessionCreationResult
         return maybeSession;
     }
 
-    public Optional<String> getMaybeError()
+    public Optional<SessionError> getMaybeError()
     {
         return maybeError;
     }
