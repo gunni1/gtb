@@ -2,7 +2,7 @@ package gtbbackend.command;
 
 import gtbbackend.user.UserId;
 import gtbbackend.session.Session;
-import gtbbackend.session.SessionCreationResult;
+import gtbbackend.session.SessionModificationResult;
 import gtbbackend.session.SessionManager;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class BeginTrainingSessionCommand implements BotCommand
         System.out.println("user: "+ userId.asString() + " send start with " + arguments.toString());
         //TODO: Location und Title aus argumenten ermitteln
 
-        SessionCreationResult creationResult = sessionManager.createSession(userId, Optional.empty(), Optional.empty());
+        SessionModificationResult creationResult = sessionManager.createSession(userId, Optional.empty(), Optional.empty());
         Optional<Session> maybeSession = creationResult.getMaybeSession();
 
         if(maybeSession.isPresent())

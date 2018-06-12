@@ -1,10 +1,15 @@
 package gtbbackend.session;
 
+import gtbbackend.practice.PracticeError;
+import gtbbackend.practice.PracticeModificationResult;
 import gtbbackend.practice.persist.PracticeRepository;
 import gtbbackend.user.UserId;
 import gtbbackend.practice.Practice;
 import gtbbackend.session.persist.SessionRepository;
+import org.bson.types.ObjectId;
 
+import javax.print.attribute.standard.PageRanges;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,19 +50,19 @@ public class SessionManager {
      * @param location
      * @return
      */
-    public SessionCreationResult createSession(UserId userId, Optional<String> title, Optional<String> location)
+    public SessionModificationResult createSession(UserId userId, Optional<String> title, Optional<String> location)
     {
         Optional<Session> activeSession = getActiveSession(userId);
         if(activeSession.isPresent())
         {
-            return SessionCreationResult.byError(SessionError.ALREADY_ACTIVE_SESSION_PRESENT);
+            return SessionModificationResult.byError(SessionError.ALREADY_ACTIVE_SESSION_PRESENT);
         }
         else
         {
             SessionBuilder sessionBuilder = new SessionBuilder(userId.asString());
             title.ifPresent(t -> sessionBuilder.title(t));
             location.ifPresent(l -> sessionBuilder.location(l));
-            return SessionCreationResult.bySuccess(sessionRepository.save(sessionBuilder.build()));
+            return SessionModificationResult.bySuccess(sessionRepository.save(sessionBuilder.build()));
         }
     }
 
@@ -66,18 +71,37 @@ public class SessionManager {
      * @param userId
      * @return
      */
-    public Optional<SessionError> endSession(UserId userId) {
-        return Optional.empty();
+    public SessionModificationResult endSession(UserId userId)
+    {
+        Optional<Session> activeSession = getActiveSession(userId);
+        if(activeSession.isPresent())
+        {
+            Session session = activeSession.get();
+            session.setEnd(LocalDateTime.now());
+            return SessionModificationResult.bySuccess(sessionRepository.save(session));
+        }
+        else
+        {
+            return SessionModificationResult.byError(SessionError.NO_ACTIVE_SESSION_TO_END);
+        }
     }
 
     /**
      * Fügt einer Trainingssitzung eine Übung hinzu.
-     * @param sessionId
      * @param practice
      * @return
      */
-    public Session addPractice(String sessionId, Practice practice) {
-        return null;
+    public PracticeModificationResult addPractice(Practice practice)
+    {
+        Optional<Session> maybeSession = sessionRepository.findOne(new ObjectId(practice.getSessionId()));
+        if(maybeSession.isPresent())
+        {
+            return PracticeModificationResult.bySuccess(practiceRepository.save(practice));
+        }
+        else
+        {
+            return PracticeModificationResult.byError(PracticeError.SESSION_NOT_FOUND);
+        }
     }
 
     /**

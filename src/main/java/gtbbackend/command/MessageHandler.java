@@ -47,7 +47,7 @@ public class MessageHandler
                     PracticeParseResult parseResult = new PracticeParser().parseToPractice(tokens);
                     if(parseResult.hasResult())
                     {
-                        sessionManager.addPractice(activeSession.get().getSessionId(), parseResult.getMaybePractice().get());
+                        //sessionManager.addPractice(activeSession.get().getSessionId(), parseResult.getMaybePractice().get());
                     }
                     else
                     {

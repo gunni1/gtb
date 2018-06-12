@@ -4,6 +4,7 @@ import gtbbackend.practice.persist.PracticeRepository;
 import gtbbackend.session.Session;
 import gtbbackend.session.SessionBuilder;
 import gtbbackend.session.SessionManager;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -35,7 +36,9 @@ public class Application implements CommandLineRunner
 
         Session session = new SessionBuilder("Karl").location("zuhause").title("training").build();
         Session savedSession = sessionRepository.save(session);
-        sessionRepository.save(new SessionBuilder("Karl").location("blabla").title("training").build());
+        Session save = sessionRepository.save(new SessionBuilder("Karl").location("blabla").title("training").build());
 
+        Optional<Session> sessionById = sessionRepository.findOne(new ObjectId(save.getSessionId()));
+        System.out.println(sessionById);
     }
 }
