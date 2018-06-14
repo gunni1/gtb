@@ -1,18 +1,18 @@
 package gtbbackend.command;
 
+import gtbbackend.session.UserSessionManager;
 import gtbbackend.user.UserId;
 import gtbbackend.session.Session;
 import gtbbackend.session.SessionModificationResult;
-import gtbbackend.session.SessionManager;
 
 import java.util.List;
 import java.util.Optional;
 
 public class BeginTrainingSessionCommand implements BotCommand
 {
-    private final SessionManager sessionManager;
+    private final UserSessionManager sessionManager;
 
-    public BeginTrainingSessionCommand(SessionManager sessionManager)
+    public BeginTrainingSessionCommand(UserSessionManager sessionManager)
     {
         this.sessionManager = sessionManager;
     }

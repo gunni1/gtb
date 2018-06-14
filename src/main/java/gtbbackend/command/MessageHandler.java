@@ -1,10 +1,10 @@
 package gtbbackend.command;
 
+import gtbbackend.session.UserSessionManager;
 import gtbbackend.user.UserId;
 import gtbbackend.practice.PracticeParseResult;
 import gtbbackend.practice.PracticeParser;
 import gtbbackend.session.Session;
-import gtbbackend.session.SessionManager;
 
 import java.util.*;
 
@@ -13,10 +13,10 @@ import java.util.*;
  */
 public class MessageHandler
 {
-    private final SessionManager sessionManager;
+    private final UserSessionManager sessionManager;
     private Collection<BotCommand> commands;
 
-    public MessageHandler(SessionManager sessionManager){
+    public MessageHandler(UserSessionManager sessionManager){
         this.sessionManager = sessionManager;
         commands = new ArrayList<>();
     }

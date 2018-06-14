@@ -3,7 +3,7 @@ package gtbbackend.session;
 import java.util.Optional;
 
 /**
- * Das Ergebnis eines Aufrufs am SessionManager. Das Ergebnis beinhaltet im Erfolgsfall die geänderte Trainingssitzung
+ * Das Ergebnis eines Aufrufs am UserSessionManager. Das Ergebnis beinhaltet im Erfolgsfall die geänderte Trainingssitzung
  * und im Fehlerfall den Fehlerschlüssel des aufgetretenen Fehlers.
  */
 public class SessionModificationResult

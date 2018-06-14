@@ -2,7 +2,7 @@ package gtbbackend.command;
 
 import gtbbackend.user.UserId;
 import gtbbackend.session.Session;
-import gtbbackend.session.SessionManager;
+import gtbbackend.session.UserSessionManager;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,9 +12,9 @@ import java.util.Optional;
  */
 public class GetLastTrainingSessionCommand implements BotCommand
 {
-    private final SessionManager sessionManager;
+    private final UserSessionManager sessionManager;
 
-    public GetLastTrainingSessionCommand(SessionManager sessionManager)
+    public GetLastTrainingSessionCommand(UserSessionManager sessionManager)
     {
         this.sessionManager = sessionManager;
     }

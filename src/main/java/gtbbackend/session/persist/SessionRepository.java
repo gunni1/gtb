@@ -12,6 +12,4 @@ public interface SessionRepository extends MongoRepository<Session, String>
 {
     List<Session> findByUserIdAndEndExists(String userId, boolean exists);
 
-    @Query("{ '_id' : ?0 }")
-    Optional<Session> findOne(ObjectId objectId);
 }

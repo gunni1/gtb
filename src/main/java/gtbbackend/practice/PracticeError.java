@@ -2,5 +2,5 @@ package gtbbackend.practice;
 
 public enum PracticeError
 {
-    SESSION_NOT_FOUND
+    NO_ACTIVE_SESSION_FOUND
 }

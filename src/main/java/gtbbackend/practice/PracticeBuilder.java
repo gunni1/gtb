@@ -8,14 +8,19 @@ public class PracticeBuilder
 
     private String nameKey;
 
+    private String userId;
+
     private Optional<Integer> reps;
 
     private Optional<String> duration;
 
-    public PracticeBuilder(String sessionId, String nameKey)
+    public PracticeBuilder(String sessionId, String userId, String nameKey)
     {
         this.sessionId = sessionId;
         this.nameKey = nameKey;
+        this.userId = userId;
+        this.reps = Optional.empty();
+        this.duration = Optional.empty();
     }
 
     public PracticeBuilder reps(int reps)
@@ -26,6 +31,7 @@ public class PracticeBuilder
 
     public PracticeBuilder duration(String duration)
     {
+        //TODO Duration-String validieren
         this.duration = Optional.of(duration);
         return this;
     }
@@ -35,6 +41,7 @@ public class PracticeBuilder
         Practice practice = new Practice();
         practice.setNameKey(nameKey);
         practice.setSessionId(sessionId);
+        practice.setUserId(userId);
         reps.ifPresent(r -> practice.setReps(r));
         duration.ifPresent(d -> practice.setDuration(d));
         return practice;

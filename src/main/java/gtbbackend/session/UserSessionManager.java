@@ -1,14 +1,13 @@
 package gtbbackend.session;
 
+import gtbbackend.practice.PracticeBuilder;
 import gtbbackend.practice.PracticeError;
 import gtbbackend.practice.PracticeModificationResult;
 import gtbbackend.practice.persist.PracticeRepository;
 import gtbbackend.user.UserId;
 import gtbbackend.practice.Practice;
 import gtbbackend.session.persist.SessionRepository;
-import org.bson.types.ObjectId;
 
-import javax.print.attribute.standard.PageRanges;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -16,13 +15,14 @@ import java.util.Optional;
 /**
  * Verwaltet Trainingssitzungen über alle Nutzer
  */
-public class SessionManager {
+public class UserSessionManager
+{
 
     private SessionRepository sessionRepository;
 
     private PracticeRepository practiceRepository;
 
-    public SessionManager(SessionRepository sessionRepository, PracticeRepository practiceRepository)
+    public UserSessionManager(SessionRepository sessionRepository, PracticeRepository practiceRepository)
     {
         this.sessionRepository = sessionRepository;
         this.practiceRepository = practiceRepository;
@@ -39,9 +39,11 @@ public class SessionManager {
         {
             case 0: return Optional.empty();
             case 1: return Optional.of(openSessions.get(0));
-            default: return Optional.empty(); //Datenschiefstand Error-Behandlung?
+            default: endSessions(openSessions); return Optional.empty();
         }
     }
+
+
 
     /**
      * Startet eine neue Trainingssitzung.
@@ -88,19 +90,22 @@ public class SessionManager {
 
     /**
      * Fügt einer Trainingssitzung eine Übung hinzu.
-     * @param practice
-     * @return
      */
-    public PracticeModificationResult addPractice(Practice practice)
+    public PracticeModificationResult addPractice(String userId, String nameKey, Optional<String> maybeDuration,
+                                                  Optional<Integer> maybeReps)
     {
-        Optional<Session> maybeSession = sessionRepository.findOne(new ObjectId(practice.getSessionId()));
-        if(maybeSession.isPresent())
+        Optional<Session> maybeActiveSession = getActiveSession(new UserId(userId));
+        if(maybeActiveSession.isPresent())
         {
-            return PracticeModificationResult.bySuccess(practiceRepository.save(practice));
+            PracticeBuilder practiceBuilder = new PracticeBuilder(maybeActiveSession.get().getSessionId(), userId, nameKey);
+            maybeDuration.ifPresent(duration -> practiceBuilder.duration(duration));
+            maybeReps.ifPresent(reps -> practiceBuilder.reps(reps));
+            //TODO Practice validieren
+            return PracticeModificationResult.bySuccess(practiceRepository.save(practiceBuilder.build()));
         }
         else
         {
-            return PracticeModificationResult.byError(PracticeError.SESSION_NOT_FOUND);
+            return PracticeModificationResult.byError(PracticeError.NO_ACTIVE_SESSION_FOUND);
         }
     }
 
@@ -112,5 +117,16 @@ public class SessionManager {
      */
     public Optional<Session> getLastSession(UserId userId) {
         return null;
+    }
+
+    private void endSessions(List<Session> openSessions)
+    {
+        openSessions.stream().forEach(activeSession -> sessionRepository.save(endSessionNow(activeSession)));
+    }
+
+    private Session endSessionNow(Session session)
+    {
+        session.setEnd(LocalDateTime.now());
+        return session;
     }
 }

@@ -4,7 +4,6 @@ import gtbbackend.practice.*;
 import gtbbackend.practice.persist.PracticeRepository;
 import gtbbackend.session.persist.SessionRepository;
 import gtbbackend.user.UserId;
-import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,7 +40,7 @@ public class SessionManagerTest
     public void getActiveSessionNoSession()
     {
         when(sessionRepository.findByUserIdAndEndExists(anyString(),anyBoolean())).thenReturn(new ArrayList<>());
-        SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
+        UserSessionManager manager = new UserSessionManager(sessionRepository, practiceRepository);
         Optional<Session> maybeResult = manager.getActiveSession(new UserId(USER_ID));
         assertThat(maybeResult.isPresent(), is(false));
     }
@@ -51,7 +50,7 @@ public class SessionManagerTest
     {
         Session activeSession = new SessionBuilder(USER_ID).build();
         when(sessionRepository.findByUserIdAndEndExists(anyString(),anyBoolean())).thenReturn(Arrays.asList(activeSession));
-        SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
+        UserSessionManager manager = new UserSessionManager(sessionRepository, practiceRepository);
         Optional<Session> maybeResult = manager.getActiveSession(new UserId(USER_ID));
         assertThat(maybeResult.isPresent(), is(true));
         assertThat(maybeResult.get().getUserId(), is(USER_ID));
@@ -65,7 +64,7 @@ public class SessionManagerTest
         when(sessionRepository.findByUserIdAndEndExists(anyString(),anyBoolean())).thenReturn(new ArrayList<>());
         when(sessionRepository.save(any())).thenReturn(savedSession);
 
-        SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
+        UserSessionManager manager = new UserSessionManager(sessionRepository, practiceRepository);
         SessionModificationResult creationResult = manager.createSession(new UserId(USER_ID), Optional.of("Training"), Optional.of("Kraftraum"));
 
         assertThat(creationResult.wasSuccessful(), is(true));
@@ -86,7 +85,7 @@ public class SessionManagerTest
         when(sessionRepository.findByUserIdAndEndExists(anyString(),anyBoolean())).thenReturn(new ArrayList<>());
         when(sessionRepository.save(any())).thenReturn(savedSession);
 
-        SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
+        UserSessionManager manager = new UserSessionManager(sessionRepository, practiceRepository);
         SessionModificationResult creationResult = manager.createSession(new UserId(USER_ID), Optional.of("Training"), Optional.of("Kraftraum"));
         Session session = creationResult.getMaybeSession().get();
         assertThat(session.getBegin(),notNullValue());
@@ -100,7 +99,7 @@ public class SessionManagerTest
         Session activeSession = new SessionBuilder(USER_ID).build();
         when(sessionRepository.findByUserIdAndEndExists(USER_ID, false)).thenReturn(Arrays.asList(activeSession));
 
-        SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
+        UserSessionManager manager = new UserSessionManager(sessionRepository, practiceRepository);
         SessionModificationResult creationResult = manager.createSession(new UserId(USER_ID), Optional.of("Training"), Optional.of("Kraftraum"));
         assertThat(creationResult.getMaybeError().get(),is(SessionError.ALREADY_ACTIVE_SESSION_PRESENT));
         verify(sessionRepository,never()).save(any());
@@ -113,7 +112,7 @@ public class SessionManagerTest
         when(sessionRepository.findByUserIdAndEndExists(USER_ID, false)).thenReturn(Arrays.asList(activeSession));
         when(sessionRepository.save(any())).thenReturn(createEndedSession(USER_ID));
 
-        SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
+        UserSessionManager manager = new UserSessionManager(sessionRepository, practiceRepository);
         SessionModificationResult result = manager.endSession(new UserId(USER_ID));
         assertThat(result.wasSuccessful(), is(true));
         assertThat(result.getMaybeSession().get().getEnd(), notNullValue());
@@ -125,7 +124,7 @@ public class SessionManagerTest
     {
         when(sessionRepository.findByUserIdAndEndExists(USER_ID, false)).thenReturn(new ArrayList<>());
 
-        SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
+        UserSessionManager manager = new UserSessionManager(sessionRepository, practiceRepository);
         SessionModificationResult result = manager.endSession(new UserId(USER_ID));
         assertThat(result.wasSuccessful(),is(false));
         assertThat(result.getMaybeError().get(),is(SessionError.NO_ACTIVE_SESSION_TO_END));
@@ -135,12 +134,12 @@ public class SessionManagerTest
     @Test
     public void addPracticeSessionNotFound()
     {
-        SessionManager manager = new SessionManager(sessionRepository, practiceRepository);
-        Practice practice = new PracticeBuilder(SESSIONID, PRACTICE_KEY).reps(4).duration("30m").build();
-        PracticeModificationResult result = manager.addPractice(practice);
+        UserSessionManager manager = new UserSessionManager(sessionRepository, practiceRepository);
+        Practice practice = new PracticeBuilder(SESSIONID, USER_ID, PRACTICE_KEY).reps(4).duration("30m").build();
+        PracticeModificationResult result = manager.addPractice(USER_ID, PRACTICE_KEY, Optional.empty(), Optional.empty());
 
         assertThat(result.wasSuccessful(),is(false));
-        assertThat(result.getMaybeError().get(),is(PracticeError.SESSION_NOT_FOUND));
+        assertThat(result.getMaybeError().get(),is(PracticeError.NO_ACTIVE_SESSION_FOUND));
         verify(practiceRepository,never()).save(any());
     }
 
