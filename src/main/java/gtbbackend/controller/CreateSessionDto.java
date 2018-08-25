@@ -2,7 +2,7 @@ package gtbbackend.controller;
 
 import java.time.LocalDateTime;
 
-public class SessionDto
+public class CreateSessionDto
 {
     private String userId;
 
@@ -10,7 +10,7 @@ public class SessionDto
 
     private String title;
 
-    public SessionDto()
+    public CreateSessionDto()
     {
     }
 

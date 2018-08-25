@@ -110,13 +110,12 @@ public class UserSessionManager
     }
 
     /**
-     * Liefert die, ausgehend von ZonedDateTime.now, letzte <b>beendete</b> Trainingssitzung eines Bentuzers.
-     *
+     * Liefert alle Sitzungen eines Benutzers
      * @param userId
-     * @return
      */
-    public Optional<Session> getLastSession(UserId userId) {
-        return null;
+    public List<Session> getUserSessions(String userId)
+    {
+        return sessionRepository.findByUserId(userId);
     }
 
     private void endSessions(List<Session> openSessions)

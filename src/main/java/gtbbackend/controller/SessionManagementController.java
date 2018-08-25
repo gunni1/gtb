@@ -1,20 +1,16 @@
 package gtbbackend.controller;
 
-import gtbbackend.practice.Practice;
-import gtbbackend.practice.PracticeBuilder;
-import gtbbackend.practice.PracticeError;
 import gtbbackend.practice.PracticeModificationResult;
 import gtbbackend.session.Session;
 import gtbbackend.session.UserSessionManager;
 import gtbbackend.session.SessionModificationResult;
 import gtbbackend.user.UserId;
-import org.omg.CORBA.RepositoryIdHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 @RestController
 public class SessionManagementController
@@ -26,12 +22,12 @@ public class SessionManagementController
      * Startet eine neue Sitzung eines Benutzers.
      */
     @PostMapping("/session")
-    public ResponseEntity createSession(@RequestBody SessionDto sessionDto)
+    public ResponseEntity createSession(@RequestBody CreateSessionDto createSessionDto)
     {
-        Optional<String> maybeTitle = Optional.ofNullable(sessionDto.getTitle());
-        Optional<String> maybeLocation = Optional.ofNullable(sessionDto.getLocation());
+        Optional<String> maybeTitle = Optional.ofNullable(createSessionDto.getTitle());
+        Optional<String> maybeLocation = Optional.ofNullable(createSessionDto.getLocation());
 
-        SessionModificationResult creationResult = sessionManager.createSession(new UserId(sessionDto.getUserId()), maybeTitle, maybeLocation);
+        SessionModificationResult creationResult = sessionManager.createSession(new UserId(createSessionDto.getUserId()), maybeTitle, maybeLocation);
         if(creationResult.wasSuccessful())
         {
             return ResponseEntity.ok(creationResult.getMaybeSession().get());
@@ -48,8 +44,8 @@ public class SessionManagementController
      * @param userId
      * @return
      */
-    @PutMapping("/activesession/{userId}/end")
-    public ResponseEntity endSession(@PathVariable String userId)
+    @PutMapping("/session/{userId}/end")
+    public ResponseEntity<?> endSession(@PathVariable String userId)
     {
         SessionModificationResult endSessionResult = sessionManager.endSession(new UserId(userId));
         if(endSessionResult.wasSuccessful())
@@ -63,7 +59,7 @@ public class SessionManagementController
     }
 
     @PostMapping("/practice")
-    public ResponseEntity addPractice(@RequestBody PracticeDto practiceDto)
+    public ResponseEntity<?> addPractice(@RequestBody PracticeDto practiceDto)
     {
         PracticeModificationResult practiceResult = sessionManager.addPractice(practiceDto.getUserId(), practiceDto.getNameKey(),
                 Optional.ofNullable(practiceDto.getDuration()), Optional.ofNullable(practiceDto.getReps()));
@@ -75,5 +71,12 @@ public class SessionManagementController
         {
             return ResponseEntity.badRequest().body(practiceResult.getMaybeError().get());
         }
+    }
+
+    @GetMapping("/sessions/{userId}")
+    public ResponseEntity<?> getSessions(@PathVariable String userId)
+    {
+        List<Session> userSessions = sessionManager.getUserSessions(userId);
+        return ResponseEntity.ok(userSessions);
     }
 }
