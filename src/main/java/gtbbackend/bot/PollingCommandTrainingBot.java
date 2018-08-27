@@ -7,9 +7,12 @@ import org.telegram.telegrambots.logging.BotLogger;
 
 public class PollingCommandTrainingBot extends TelegramLongPollingCommandBot
 {
-    public PollingCommandTrainingBot(String botUsername)
+    private String botToken;
+
+    public PollingCommandTrainingBot(String botUsername, String botToken)
     {
         super(botUsername);
+        this.botToken = botToken;
 
         register(new CreateSessionCommand());
     }
@@ -17,12 +20,12 @@ public class PollingCommandTrainingBot extends TelegramLongPollingCommandBot
     @Override
     public void processNonCommandUpdate(Update update)
     {
-        
+        BotLogger.info("no command", update.toString());
     }
 
     @Override
     public String getBotToken()
     {
-        return null;
+        return botToken;
     }
 }

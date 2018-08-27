@@ -11,7 +11,7 @@ import org.telegram.telegrambots.logging.BotLogger;
  */
 public class CreateSessionCommand extends BotCommand
 {
-    private static final String COMMAND_ID = "createSession";
+    private static final String COMMAND_ID = "/cs";
     private static final String COMMAND_DESC = "Sitzung starten";
 
     public CreateSessionCommand()
@@ -22,6 +22,6 @@ public class CreateSessionCommand extends BotCommand
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings)
     {
-        BotLogger.info(COMMAND_ID, "executed");
+        BotLogger.info(COMMAND_ID, "executed by " + user.getFirstName());
     }
 }
