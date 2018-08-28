@@ -1,6 +1,8 @@
 package gtbbackend.config;
 
 import gtbbackend.bot.PollingCommandTrainingBot;
+import gtbbackend.session.UserSessionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +20,16 @@ public class TelegramBotConfig
     @Value("${telegram.bot.token}")
     private String botToken;
 
+    @Autowired
+    private UserSessionManager userSessionManager;
+
     @Bean
     public PollingCommandTrainingBot pollingCommandTrainingBot() throws TelegramApiRequestException
     {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
-        PollingCommandTrainingBot bot = new PollingCommandTrainingBot(BOT_USERNAME, botToken);
+        PollingCommandTrainingBot bot = new PollingCommandTrainingBot(BOT_USERNAME, botToken, userSessionManager);
         telegramBotsApi.registerBot(bot);
 
         return bot;

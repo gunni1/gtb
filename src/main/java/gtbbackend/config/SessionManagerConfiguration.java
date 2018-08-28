@@ -14,8 +14,6 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 @Configuration
 public class SessionManagerConfiguration
 {
-
-
     @Autowired
     private SessionRepository sessionRepository;
 
@@ -23,7 +21,7 @@ public class SessionManagerConfiguration
     private PracticeRepository practiceRepository;
 
     @Bean
-    public UserSessionManager sessionManager()
+    public UserSessionManager userSessionManager()
     {
         return new UserSessionManager(sessionRepository, practiceRepository);
     }
