@@ -1,6 +1,5 @@
 package gtbbackend.bot.command;
 
-import gtbbackend.session.SessionModificationResult;
 import gtbbackend.session.UserSessionManager;
 import gtbbackend.user.UserId;
 import org.telegram.telegrambots.api.objects.Chat;
@@ -9,7 +8,9 @@ import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.logging.BotLogger;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Erzeugt eine neue Trainingssitzung.
@@ -40,7 +41,9 @@ public class CreateSessionCommand extends BotCommand
 
         Optional<String> maybeLocation = tryToParseLocation(strings);
 
-        SessionModificationResult session = userSessionManager.createSession(userId, maybeTitle, maybeLocation);
+        String practiceString = Arrays.asList(strings).stream().collect(Collectors.joining(" "));
+
+
         //TODO: Rückmeldung
         BotLogger.info(COMMAND_ID, "received: " + strings);
     }

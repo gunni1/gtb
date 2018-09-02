@@ -1,5 +1,7 @@
 package gtbbackend.practice;
 
+import gtbbackend.practice.dto.PracticeDto;
+
 import java.util.Optional;
 
 /**
@@ -7,10 +9,10 @@ import java.util.Optional;
  */
 public class PracticeParseResult
 {
-    Optional<Practice> maybePractice;
+    Optional<PracticeDto> maybePractice;
     Optional<String> maybeError;
 
-    public PracticeParseResult(Optional<Practice> maybePractice)
+    public PracticeParseResult(Optional<PracticeDto> maybePractice)
     {
         this.maybePractice = maybePractice;
         this.maybeError = Optional.empty();
@@ -25,7 +27,7 @@ public class PracticeParseResult
         return maybePractice.isPresent();
     }
 
-    public Optional<Practice> getMaybePractice()
+    public Optional<PracticeDto> getMaybePractice()
     {
         return maybePractice;
     }

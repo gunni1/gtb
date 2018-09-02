@@ -1,11 +1,9 @@
 package gtbbackend.session;
 
-import gtbbackend.practice.PracticeBuilder;
 import gtbbackend.practice.PracticeError;
 import gtbbackend.practice.PracticeModificationResult;
 import gtbbackend.practice.persist.PracticeRepository;
 import gtbbackend.user.UserId;
-import gtbbackend.practice.Practice;
 import gtbbackend.session.persist.SessionRepository;
 
 import java.time.LocalDateTime;
@@ -97,11 +95,7 @@ public class UserSessionManager
         Optional<Session> maybeActiveSession = getActiveSession(new UserId(userId));
         if(maybeActiveSession.isPresent())
         {
-            PracticeBuilder practiceBuilder = new PracticeBuilder(maybeActiveSession.get().getSessionId(), userId, nameKey);
-            maybeDuration.ifPresent(duration -> practiceBuilder.duration(duration));
-            maybeReps.ifPresent(reps -> practiceBuilder.reps(reps));
-            //TODO Practice validieren
-            return PracticeModificationResult.bySuccess(practiceRepository.save(practiceBuilder.build()));
+            return null;
         }
         else
         {

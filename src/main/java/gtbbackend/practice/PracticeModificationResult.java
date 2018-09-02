@@ -1,14 +1,16 @@
 package gtbbackend.practice;
 
+import gtbbackend.practice.dto.PracticeDto;
+
 import java.util.Optional;
 
 public class PracticeModificationResult
 {
-    private Optional<Practice> maybePractice;
+    private Optional<PracticeDto> maybePractice;
 
     private Optional<PracticeError> maybeError;
 
-    private PracticeModificationResult(Optional<Practice> maybePractice, Optional<PracticeError> maybeError)
+    private PracticeModificationResult(Optional<PracticeDto> maybePractice, Optional<PracticeError> maybeError)
     {
         this.maybePractice = maybePractice;
         this.maybeError = maybeError;
@@ -19,9 +21,9 @@ public class PracticeModificationResult
         return new PracticeModificationResult(Optional.empty(), Optional.of(reason));
     }
 
-    public static PracticeModificationResult bySuccess(Practice practice)
+    public static PracticeModificationResult bySuccess(PracticeDto practiceDto)
     {
-        return new PracticeModificationResult(Optional.of(practice), Optional.empty());
+        return new PracticeModificationResult(Optional.of(practiceDto), Optional.empty());
     }
 
     public boolean wasSuccessful()
@@ -29,7 +31,7 @@ public class PracticeModificationResult
         return maybePractice.isPresent();
     }
 
-    public Optional<Practice> getMaybePractice()
+    public Optional<PracticeDto> getMaybePractice()
     {
         return maybePractice;
     }
