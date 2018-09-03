@@ -1,6 +1,8 @@
 package gtbbackend.bot;
 
 import gtbbackend.bot.command.CreateSessionCommand;
+import gtbbackend.bot.command.RepsSetPracticeCommand;
+import gtbbackend.practice.PracticeRepository;
 import gtbbackend.session.UserSessionManager;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.commandbot.TelegramLongPollingCommandBot;
@@ -10,12 +12,12 @@ public class PollingCommandTrainingBot extends TelegramLongPollingCommandBot
 {
     private final String botToken;
 
-    public PollingCommandTrainingBot(String botUsername, String botToken, UserSessionManager userSessionManager)
+    public PollingCommandTrainingBot(String botUsername, String botToken, PracticeRepository practiceRepository)
     {
         super(botUsername);
         this.botToken = botToken;
 
-        register(new CreateSessionCommand(userSessionManager));
+        register(new RepsSetPracticeCommand(practiceRepository));
     }
 
     @Override

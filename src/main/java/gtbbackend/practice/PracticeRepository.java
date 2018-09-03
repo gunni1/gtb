@@ -1,4 +1,4 @@
-package gtbbackend.practice.persist;
+package gtbbackend.practice;
 
 import gtbbackend.practice.dto.PracticeDto;
 import org.springframework.data.mongodb.repository.MongoRepository;

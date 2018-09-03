@@ -2,7 +2,7 @@ package gtbbackend.session;
 
 import gtbbackend.practice.PracticeError;
 import gtbbackend.practice.PracticeModificationResult;
-import gtbbackend.practice.persist.PracticeRepository;
+import gtbbackend.practice.PracticeRepository;
 import gtbbackend.user.UserId;
 import gtbbackend.session.persist.SessionRepository;
 
