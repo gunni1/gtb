@@ -1,6 +1,8 @@
 package gtbbackend.bot.command;
 
 import gtbbackend.practice.PracticeRepository;
+import gtbbackend.practice.dto.PracticeDto;
+import gtbbackend.practice.dto.RepsSetDto;
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
@@ -25,18 +27,40 @@ public class RepsSetPracticeCommand extends BotCommand
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments)
     {
         Optional<String> maybeTitle = tryToParseString(arguments, 0);
-        Optional<String> maybeReps = tryToParseString(arguments, 1);
+        Optional<Integer> maybeReps = tryToParseInteger(arguments, 1);
 
         //Error in Response schreiben wenn optional.empty
         //maybeTitle.ifPresent();
         //maybeReps.ifPresent();
         if(maybeTitle.isPresent() && maybeReps.isPresent())
         {
-            //Repo speichern
+            RepsSetDto repsSetDto = new RepsSetDto().setReps(maybeReps.get());
+            PracticeDto practiceDto = new PracticeDto().setUserId(String.valueOf(user.getId())).setPracticeDetails(repsSetDto);
+            practiceRepository.save(practiceDto);
         }
     }
 
+    private Optional<Integer> tryToParseInteger(String[] arguments, int index)
+    {
+        if(arguments.length < index + 1)
+        {
+            return Optional.empty();
+        }
+        else
+        {
+            String string = arguments[index];
+            Integer asInteger = null;
+            try
+            {
+                asInteger = Integer.valueOf(string);
 
+            } catch (NumberFormatException ex)
+            {
+                return Optional.empty();
+            }
+            return Optional.of(asInteger);
+        }
+    }
 
     private Optional<String> tryToParseString(String[] arguments, int index)
     {

@@ -3,7 +3,7 @@ package gtbbackend.practice.dto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document(collection = "practices")
 public class PracticeDto
 {
     @Id
@@ -13,11 +13,7 @@ public class PracticeDto
 
     private PracticeDetails practiceDetails;
 
-    protected PracticeDto() {
-    }
-
-    public PracticeDto(String userId) {
-        this.userId = userId;
+    public PracticeDto() {
     }
 
     public String getPracticeId() {
