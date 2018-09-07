@@ -2,6 +2,7 @@ package gtbbackend.bot;
 
 import gtbbackend.bot.command.CreateSessionCommand;
 import gtbbackend.bot.command.RepsSetPracticeCommand;
+import gtbbackend.bot.command.TimeDistancePracticeCommand;
 import gtbbackend.practice.PracticeRepository;
 import gtbbackend.session.UserSessionManager;
 import org.telegram.telegrambots.api.objects.Update;
@@ -18,6 +19,7 @@ public class PollingCommandTrainingBot extends TelegramLongPollingCommandBot
         this.botToken = botToken;
 
         register(new RepsSetPracticeCommand(practiceRepository));
+        register(new TimeDistancePracticeCommand(practiceRepository));
     }
 
     @Override
