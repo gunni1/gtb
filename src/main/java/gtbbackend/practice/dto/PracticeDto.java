@@ -11,6 +11,8 @@ public class PracticeDto
 
     private String userId;
 
+    private String title;
+
     private PracticeDetails practiceDetails;
 
     public PracticeDto() {
@@ -47,6 +49,17 @@ public class PracticeDto
     public PracticeDto setPracticeDetails(PracticeDetails practiceDetails)
     {
         this.practiceDetails = practiceDetails;
+        return this;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public PracticeDto setTitle(String title)
+    {
+        this.title = title;
         return this;
     }
 }
