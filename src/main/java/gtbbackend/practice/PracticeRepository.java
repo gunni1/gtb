@@ -9,4 +9,6 @@ public interface PracticeRepository extends MongoRepository<PracticeDto, String>
 {
 
     List<PracticeDto> findByUserIdAndKey(String userId, String practiceKey);
+
+    List<PracticeDto> findByUserId(String userId);
 }
