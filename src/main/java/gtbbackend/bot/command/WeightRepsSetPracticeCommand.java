@@ -4,13 +4,13 @@ import gtbbackend.bot.BotArgumentsParseUtils;
 import gtbbackend.bot.ResponseSender;
 import gtbbackend.practice.PracticeRepository;
 import gtbbackend.practice.dto.PracticeDto;
-import gtbbackend.practice.dto.RepsSetDto;
 import gtbbackend.practice.dto.WeightRepsSetDto;
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class WeightRepsSetPracticeCommand extends BotCommand
@@ -38,8 +38,8 @@ public class WeightRepsSetPracticeCommand extends BotCommand
         if(maybeTitle.isPresent() && maybeReps.isPresent() && maybeWeightInKg.isPresent())
         {
             WeightRepsSetDto weightRepsSetDto = new WeightRepsSetDto().setReps(maybeReps.get()).setKilogram(maybeWeightInKg.get());
-            PracticeDto practiceDto = new PracticeDto().setTitle(maybeTitle.get()).setUserId(String.valueOf(user.getId()))
-                    .setPracticeDetails(weightRepsSetDto);
+            PracticeDto practiceDto = new PracticeDto().setKey(maybeTitle.get()).setUserId(String.valueOf(user.getId()))
+                    .setPracticeTime(LocalDateTime.now()).setPracticeDetails(weightRepsSetDto);
             practiceRepository.save(practiceDto);
             responseSender.sendMessage("ok");
         }

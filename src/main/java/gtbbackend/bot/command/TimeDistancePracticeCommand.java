@@ -10,6 +10,7 @@ import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class TimeDistancePracticeCommand extends BotCommand
@@ -38,7 +39,7 @@ public class TimeDistancePracticeCommand extends BotCommand
             Double distanceInMeter = maybeDistance.get() * 1000;
             TimeDistanceDto timeDistanceDto = new TimeDistanceDto().setDuration(maybeDurationInSeconds.get())
                     .setMeter(distanceInMeter.intValue());
-            PracticeDto practiceDto = new PracticeDto().setTitle(maybeTitle.get())
+            PracticeDto practiceDto = new PracticeDto().setKey(maybeTitle.get()).setPracticeTime(LocalDateTime.now())
                     .setUserId(String.valueOf(user.getId())).setPracticeDetails(timeDistanceDto);
             practiceRepository.save(practiceDto);
             responseSender.sendMessage("ok");

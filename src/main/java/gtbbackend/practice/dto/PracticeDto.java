@@ -3,6 +3,8 @@ package gtbbackend.practice.dto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "practices")
 public class PracticeDto
 {
@@ -11,7 +13,9 @@ public class PracticeDto
 
     private String userId;
 
-    private String title;
+    private String key;
+
+    private LocalDateTime practiceTime;
 
     private PracticeDetails practiceDetails;
 
@@ -52,14 +56,25 @@ public class PracticeDto
         return this;
     }
 
-    public String getTitle()
+    public String getKey()
     {
-        return title;
+        return key;
     }
 
-    public PracticeDto setTitle(String title)
+    public PracticeDto setKey(String key)
     {
-        this.title = title;
+        this.key = key;
+        return this;
+    }
+
+    public LocalDateTime getPracticeTime()
+    {
+        return practiceTime;
+    }
+
+    public PracticeDto setPracticeTime(LocalDateTime practiceTime)
+    {
+        this.practiceTime = practiceTime;
         return this;
     }
 }

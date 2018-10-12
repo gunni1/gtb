@@ -10,6 +10,7 @@ import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class RepsSetPracticeCommand extends BotCommand
@@ -35,8 +36,8 @@ public class RepsSetPracticeCommand extends BotCommand
         if(maybeTitle.isPresent() && maybeReps.isPresent())
         {
             RepsSetDto repsSetDto = new RepsSetDto().setReps(maybeReps.get());
-            PracticeDto practiceDto = new PracticeDto().setTitle(maybeTitle.get()).setUserId(String.valueOf(user.getId()))
-                    .setPracticeDetails(repsSetDto);
+            PracticeDto practiceDto = new PracticeDto().setKey(maybeTitle.get()).setPracticeTime(LocalDateTime.now())
+                    .setUserId(String.valueOf(user.getId())).setPracticeDetails(repsSetDto);
             practiceRepository.save(practiceDto);
             responseSender.sendMessage("ok");
         }

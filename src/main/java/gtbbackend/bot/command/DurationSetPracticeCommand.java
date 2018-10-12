@@ -5,12 +5,12 @@ import gtbbackend.bot.ResponseSender;
 import gtbbackend.practice.PracticeRepository;
 import gtbbackend.practice.dto.DurationSetDto;
 import gtbbackend.practice.dto.PracticeDto;
-import gtbbackend.practice.dto.RepsSetDto;
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class DurationSetPracticeCommand extends BotCommand
@@ -36,8 +36,8 @@ public class DurationSetPracticeCommand extends BotCommand
         if(maybeTitle.isPresent() && maybeDurationInSec.isPresent())
         {
             DurationSetDto durationSetDto = new DurationSetDto().setSeconds(maybeDurationInSec.get().intValue());
-            PracticeDto practiceDto = new PracticeDto().setTitle(maybeTitle.get()).setUserId(String.valueOf(user.getId()))
-                    .setPracticeDetails(durationSetDto);
+            PracticeDto practiceDto = new PracticeDto().setKey(maybeTitle.get()).setUserId(String.valueOf(user.getId()))
+                    .setPracticeTime(LocalDateTime.now()).setPracticeDetails(durationSetDto);
             practiceRepository.save(practiceDto);
             responseSender.sendMessage("ok");
         }
