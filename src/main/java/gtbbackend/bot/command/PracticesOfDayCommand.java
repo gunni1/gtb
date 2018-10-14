@@ -9,20 +9,22 @@ import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
-public class LatestPracticesCommand extends BotCommand
+public class PracticesOfDayCommand extends BotCommand
 {
-    private static final String COMMAND_ID = "/last";
-    private static final String COMMAND_DESC = "/last liegestütz";
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM uuuu");
+    private static final String COMMAND_ID = "/prac";
+    private static final String COMMAND_DESC = "/prac 30.07.18";
+    private static final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM uuuu");
+    private static final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("d.MM.uu");
     private final PracticeService practiceService;
 
-    public LatestPracticesCommand(PracticeService practiceService)
+    public PracticesOfDayCommand(PracticeService practiceService)
     {
         super(COMMAND_ID, COMMAND_DESC);
         this.practiceService = practiceService;
@@ -31,29 +33,30 @@ public class LatestPracticesCommand extends BotCommand
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments)
     {
-        Optional<String> maybePracticeKey = BotArgumentsParseUtils.parseString(arguments, 0);
+        Optional<LocalDate> maybeQueryDate = BotArgumentsParseUtils.parseDate(arguments, 0, INPUT_DATE_FORMAT);
         ResponseSender responseSender = new ResponseSender(absSender, chat.getId(), COMMAND_ID);
-        if(maybePracticeKey.isPresent())
+        if(maybeQueryDate.isPresent())
         {
-            List<PracticeDto> latestPractices = practiceService.getLatestPractices(String.valueOf(user.getId()), maybePracticeKey.get());
-            if(latestPractices.isEmpty())
+
+            List<PracticeDto> practicesOfDay = practiceService.getPracticesOfDay(String.valueOf(user.getId()), maybeQueryDate.get());
+            if(practicesOfDay.isEmpty())
             {
-                responseSender.sendMessage("Übung: " + maybePracticeKey.get() + " bisher nicht protokolliert.");
+                responseSender.sendMessage("Keine Übungen am " + maybeQueryDate.get().format(OUTPUT_DATE_FORMAT) + " protokolliert.");
             }
             else
             {
-                LocalDateTime lastPracticeTime = latestPractices.get(0).getPracticeTime().truncatedTo(ChronoUnit.DAYS);
+                LocalDateTime lastPracticeTime = practicesOfDay.get(0).getPracticeTime().truncatedTo(ChronoUnit.DAYS);
                 StringBuilder response = new StringBuilder();
-                response.append(lastPracticeTime.format(DATE_FORMAT));
+                response.append(lastPracticeTime.format(OUTPUT_DATE_FORMAT));
                 response.append("\n");
-                latestPractices.stream().map(practice -> practice.format(false))
+                practicesOfDay.stream().map(practice -> practice.format(true))
                         .forEach(formattedPractice -> response.append("- " + formattedPractice + "\n"));
                 responseSender.sendMessage(response.toString());
             }
         }
         else
         {
-            responseSender.sendMessage("Formatfehler: bitte in folgendem Format angeben: \n" + COMMAND_DESC);
+            responseSender.sendMessage("Das Format für das Datum ist nicht korrekt. Bitte wie folgt angeben: " + COMMAND_DESC);
         }
     }
 }

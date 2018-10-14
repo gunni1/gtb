@@ -25,6 +25,7 @@ public class PollingCommandTrainingBot extends TelegramLongPollingCommandBot
         register(new DurationSetPracticeCommand(practiceRepository));
         register(new WeightRepsSetPracticeCommand(practiceRepository));
         register(new LatestPracticesCommand(practiceService));
+        register(new PracticesOfDayCommand(practiceService));
 
         List<String> commandDescs = this.getRegisteredCommands().stream().map(command -> command.getDescription())
                 .collect(Collectors.toList());

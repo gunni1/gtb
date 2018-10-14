@@ -22,9 +22,15 @@ public class PracticeDto
     public PracticeDto() {
     }
 
-    public String format()
+    public String format(Boolean withKey)
     {
-        return practiceDetails.format();
+        StringBuilder stringBuilder = new StringBuilder();
+        if(withKey)
+        {
+            stringBuilder.append(key).append(": ");
+        }
+        stringBuilder.append(practiceDetails.format());
+        return stringBuilder.toString();
     }
 
     public String getPracticeId() {

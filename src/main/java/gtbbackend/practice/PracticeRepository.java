@@ -11,11 +11,13 @@ import java.util.Optional;
 public interface PracticeRepository extends MongoRepository<PracticeDto, String>
 {
 
-    List<PracticeDto> findByUserIdAndKey(String userId, String practiceKey);
+    List<PracticeDto> findByUserIdAndKeyAllIgnoreCase(String userId, String practiceKey);
 
     List<PracticeDto> findByUserId(String userId);
 
-    Optional<PracticeDto> findDistinctFirstByUserIdAndKeyOrderByPracticeTimeDesc(String userId, String practiceKey);
+    Optional<PracticeDto> findDistinctFirstByUserIdAndKeyOrderByPracticeTimeDescAllIgnoreCase(String userId, String practiceKey);
 
-    List<PracticeDto> findAllByUserIdAndKeyAndPracticeTimeBetween(String userId, String practiceKey, LocalDateTime begin, LocalDateTime end);
+    List<PracticeDto> findAllByUserIdAndKeyAndPracticeTimeBetweenAllIgnoreCase(String userId, String practiceKey, LocalDateTime begin, LocalDateTime end);
+
+    List<PracticeDto> findAllByUserIdAndPracticeTimeBetween(String userId, LocalDateTime begin, LocalDateTime end);
 }
