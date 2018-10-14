@@ -22,6 +22,11 @@ public class PracticeDto
     public PracticeDto() {
     }
 
+    public String format()
+    {
+        return practiceDetails.format();
+    }
+
     public String getPracticeId() {
         return practiceId;
     }

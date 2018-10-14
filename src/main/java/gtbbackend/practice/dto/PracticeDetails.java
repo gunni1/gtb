@@ -12,4 +12,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         })
 public interface PracticeDetails
 {
+    String format();
 }

@@ -2,6 +2,7 @@ package gtbbackend.bot;
 
 import gtbbackend.bot.command.*;
 import gtbbackend.practice.PracticeRepository;
+import gtbbackend.practice.PracticeService;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.logging.BotLogger;
@@ -13,7 +14,8 @@ public class PollingCommandTrainingBot extends TelegramLongPollingCommandBot
 {
     private final String botToken;
 
-    public PollingCommandTrainingBot(String botUsername, String botToken, PracticeRepository practiceRepository)
+    public PollingCommandTrainingBot(String botUsername, String botToken, PracticeRepository practiceRepository,
+                                     PracticeService practiceService)
     {
         super(botUsername);
         this.botToken = botToken;
@@ -22,6 +24,7 @@ public class PollingCommandTrainingBot extends TelegramLongPollingCommandBot
         register(new TimeDistancePracticeCommand(practiceRepository));
         register(new DurationSetPracticeCommand(practiceRepository));
         register(new WeightRepsSetPracticeCommand(practiceRepository));
+        register(new LatestPracticesCommand(practiceService));
 
         List<String> commandDescs = this.getRegisteredCommands().stream().map(command -> command.getDescription())
                 .collect(Collectors.toList());

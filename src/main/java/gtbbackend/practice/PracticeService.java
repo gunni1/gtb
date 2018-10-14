@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,11 +20,17 @@ public class PracticeService
 
     public List<PracticeDto> getLatestPractices(String userId, String practiceKey)
     {
-        PracticeDto lastPractice = practiceRepository.findDistinctFirstByUserIdAndKeyOrderByPracticeTimeDesc(userId, practiceKey);
-        LocalDateTime actualDay = lastPractice.getPracticeTime().truncatedTo(ChronoUnit.DAYS);
-        LocalDateTime nextDay = actualDay.plusDays(1);
-        List<PracticeDto> allPracticesOfLastDay = practiceRepository.findAllByUserIdAndKeyAndPracticeTimeBetween(userId, practiceKey, actualDay, nextDay);
-        return allPracticesOfLastDay;
+        Optional<PracticeDto> maybeLastPractice = practiceRepository.findDistinctFirstByUserIdAndKeyOrderByPracticeTimeDesc(userId, practiceKey);
+        if(maybeLastPractice.isPresent())
+        {
+            LocalDateTime actualDay = maybeLastPractice.get().getPracticeTime().truncatedTo(ChronoUnit.DAYS);
+            LocalDateTime nextDay = actualDay.plusDays(1);
+            return practiceRepository.findAllByUserIdAndKeyAndPracticeTimeBetween(userId, practiceKey, actualDay, nextDay);
+        }
+        else
+        {
+            return new ArrayList<>();
+        }
     }
 
     public List<PracticeDto> getPractices(String userId, String practiceKey)

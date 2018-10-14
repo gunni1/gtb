@@ -30,4 +30,10 @@ public class WeightRepsSetDto implements PracticeDetails
         this.reps = reps;
         return this;
     }
+
+    @Override
+    public String format()
+    {
+        return kilogram + " kg, " + reps + " wdh";
+    }
 }

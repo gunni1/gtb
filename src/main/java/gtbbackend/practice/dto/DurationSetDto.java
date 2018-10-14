@@ -18,4 +18,10 @@ public class DurationSetDto implements PracticeDetails
         this.seconds = seconds;
         return this;
     }
+
+    @Override
+    public String format()
+    {
+        return seconds + " sek";
+    }
 }

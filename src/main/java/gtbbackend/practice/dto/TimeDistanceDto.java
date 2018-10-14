@@ -32,4 +32,17 @@ public class TimeDistanceDto implements PracticeDetails
         this.duration = duration;
         return this;
     }
+
+    @Override
+    public String format()
+    {
+        if(meter > 1000)
+        {
+            return meter / 1000 + " km in " + duration;
+        }
+        else
+        {
+            return meter + " m in " + duration;
+        }
+    }
 }

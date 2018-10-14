@@ -18,4 +18,10 @@ public class RepsSetDto implements PracticeDetails
         this.reps = reps;
         return this;
     }
+
+    @Override
+    public String format()
+    {
+        return reps + " wdh";
+    }
 }
