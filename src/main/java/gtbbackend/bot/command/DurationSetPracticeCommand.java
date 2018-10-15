@@ -16,7 +16,7 @@ import java.util.Optional;
 public class DurationSetPracticeCommand extends BotCommand
 {
     private static final String COMMAND_ID = "/ds";
-    private static final String COMMAND_DESC = "Set mit einer Zeitspanne: /ds unterarmstütz 90s";
+    private static final String COMMAND_DESC = "- Set mit einer Zeitspanne: /ds unterarmstütz 90s";
 
     private final PracticeRepository practiceRepository;
 

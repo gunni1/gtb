@@ -16,7 +16,7 @@ import java.util.Optional;
 public class WeightRepsSetPracticeCommand extends BotCommand
 {
     private static final String COMMAND_ID = "/wrs";
-    private static final String COMMAND_DESC = "Set mit Gewicht und Wiederholungen: /wrs <Übung> <gew. in kg> <wdh> ";
+    private static final String COMMAND_DESC = "- Set mit Gewicht und Wiederholungen: /wrs <Übung> <gew. in kg> <wdh> ";
     private static final String COMMAND_EXAMPLE = "'/wrs Bankdrücken 60 12' -> 60 kilogramm mit 12 Wdh";
 
     private final PracticeRepository practiceRepository;

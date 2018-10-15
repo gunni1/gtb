@@ -16,7 +16,7 @@ import java.util.Optional;
 public class RepsSetPracticeCommand extends BotCommand
 {
     private static final String COMMAND_ID = "/rs";
-    private static final String COMMAND_DESC = "Set mit Wiederholungen: /rs liegestütz 20";
+    private static final String COMMAND_DESC = "- Set mit Wiederholungen: /rs liegestütz 20";
 
     private PracticeRepository practiceRepository;
 
