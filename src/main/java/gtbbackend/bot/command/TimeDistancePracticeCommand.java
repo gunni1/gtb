@@ -16,7 +16,7 @@ import java.util.Optional;
 public class TimeDistancePracticeCommand extends BotCommand
 {
     private static final String COMMAND_ID = "/td";
-    private static final String COMMAND_DESC = "/td Laufen 1h3m4s 11.04 km";
+    private static final String COMMAND_DESC = "Aktivität mit Distanz und Zeit: /td Laufen 1h3m4s 11.04 km";
 
     private PracticeRepository practiceRepository;
 

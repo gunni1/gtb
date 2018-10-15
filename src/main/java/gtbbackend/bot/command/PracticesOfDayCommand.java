@@ -19,7 +19,7 @@ import java.util.Optional;
 public class PracticesOfDayCommand extends BotCommand
 {
     private static final String COMMAND_ID = "/prac";
-    private static final String COMMAND_DESC = "/prac 30.07.18";
+    private static final String COMMAND_DESC = "Übungen eines Tages: /prac 30.07.18";
     private static final DateTimeFormatter OUTPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM uuuu");
     private static final DateTimeFormatter INPUT_DATE_FORMAT = DateTimeFormatter.ofPattern("d.MM.uu");
     private final PracticeService practiceService;

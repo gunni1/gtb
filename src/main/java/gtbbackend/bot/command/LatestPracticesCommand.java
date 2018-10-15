@@ -18,7 +18,7 @@ import java.util.Optional;
 public class LatestPracticesCommand extends BotCommand
 {
     private static final String COMMAND_ID = "/last";
-    private static final String COMMAND_DESC = "/last liegestütz";
+    private static final String COMMAND_DESC = "Letztes Set einer Übung: /last liegestütz";
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM uuuu");
     private final PracticeService practiceService;
 
