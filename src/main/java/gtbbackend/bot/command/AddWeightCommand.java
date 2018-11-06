@@ -2,6 +2,7 @@ package gtbbackend.bot.command;
 
 import gtbbackend.bot.BotArgumentsParseUtils;
 import gtbbackend.bot.ResponseSender;
+import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.User;
 import org.telegram.telegrambots.bots.AbsSender;
@@ -9,12 +10,12 @@ import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 
 import java.util.Optional;
 
-public class WeightCommand extends BotCommand
+public class AddWeightCommand extends BotCommand
 {
-    private static final String COMMAND_ID = "/gew";
-    private static final String COMMAND_DESC = "- Körpergewicht: /gew 86,8";
+    private static final String COMMAND_ID = "/wgtadd";
+    private static final String COMMAND_DESC = "- Körpergewicht hinzufügen: /gew 86,8";
 
-    public WeightCommand()
+    public AddWeightCommand()
     {
         super(COMMAND_ID, COMMAND_DESC);
     }
@@ -27,7 +28,7 @@ public class WeightCommand extends BotCommand
 
         if (maybeWeight.isPresent())
         {
-
+            //Gewicht hinzufügen und wenn bereits ein Eintrag vorhanden ist differenz berechnen und zurück geben
         }
     }
 }
