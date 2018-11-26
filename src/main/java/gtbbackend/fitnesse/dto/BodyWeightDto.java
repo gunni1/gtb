@@ -3,6 +3,8 @@ package gtbbackend.fitnesse.dto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "bodyweights")
 public class BodyWeightDto
 {
@@ -13,8 +15,21 @@ public class BodyWeightDto
 
     private Double weight;
 
+    private LocalDateTime dateTime;
+
     public BodyWeightDto()
     {
+    }
+
+    public LocalDateTime getDateTime()
+    {
+        return dateTime;
+    }
+
+    public BodyWeightDto setDateTime(LocalDateTime dateTime)
+    {
+        this.dateTime = dateTime;
+        return this;
     }
 
     public String getId()
