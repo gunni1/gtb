@@ -25,6 +25,16 @@ public class BotArgumentParseUtilsTest
     }
 
     @Test
+    public void parseDoubleWithColon()
+    {
+        String[] arguments = {"11,04"};
+        Optional<Double> asDouble = BotArgumentsParseUtils.parseDouble(arguments, 0);
+
+        assertThat(asDouble.isPresent(), is(true));
+        assertThat(asDouble.get(), is(11.04d));
+    }
+
+    @Test
     public void parseDate()
     {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("d.MM.uu");

@@ -15,20 +15,20 @@ public class BodyWeightDto
 
     private Double weight;
 
-    private LocalDateTime dateTime;
+    private LocalDateTime weightTime;
 
     public BodyWeightDto()
     {
     }
 
-    public LocalDateTime getDateTime()
+    public LocalDateTime getWeightTime()
     {
-        return dateTime;
+        return weightTime;
     }
 
-    public BodyWeightDto setDateTime(LocalDateTime dateTime)
+    public BodyWeightDto setWeightTime(LocalDateTime weightTime)
     {
-        this.dateTime = dateTime;
+        this.weightTime = weightTime;
         return this;
     }
 

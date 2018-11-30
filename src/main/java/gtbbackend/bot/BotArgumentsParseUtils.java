@@ -61,7 +61,8 @@ public class BotArgumentsParseUtils
             Double asDouble = null;
             try
             {
-                asDouble = Double.valueOf(string);
+                //Alternative: NumberFormat nutzen
+                asDouble = Double.valueOf(string.replace(",","."));
 
             } catch (NumberFormatException ex)
             {
