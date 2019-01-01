@@ -11,6 +11,7 @@ import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class AddWeightCommand extends BotCommand
@@ -35,18 +36,23 @@ public class AddWeightCommand extends BotCommand
         {
             String responseMessage = "";
             Optional<BodyWeightDto> maybeLatestWeight = fitnesseService.getLatestBodyWeight(String.valueOf(user.getId()));
-            Optional<BodyWeightDto> maybeSavedDto = fitnesseService.addBodyWeight(maybeWeight.get(), String.valueOf(user.getId()));
+            fitnesseService.addBodyWeight(maybeWeight.get(), String.valueOf(user.getId()));
 
 
-            if(maybeLatestWeight.isPresent() && maybeSavedDto.isPresent())
+            if(maybeLatestWeight.isPresent())
             {
-                Double diff = maybeWeight.get() - maybeLatestWeight.get().getWeight();
-                DecimalFormat decimalFormat = new DecimalFormat("#.00");
-                responseMessage = "differenz zum letzten Eintrag: " + decimalFormat.format(diff) + " kg";
-            }
-            else if(!maybeSavedDto.isPresent())
-            {
-                responseMessage = "fehler beim speichern";
+                BodyWeightDto latestWeight = maybeLatestWeight.get();
+                Double diff = maybeWeight.get() - latestWeight.getWeight();
+                DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                if(latestWeight.getWeightTime().toLocalDate().isEqual(LocalDate.now()))
+                {
+                    fitnesseService.removeBodyWeightEntry(latestWeight);
+                    responseMessage = "Heutigen Eintrag aktualisiert. Differenz: " + decimalFormat.format(diff) + " kg";
+                }
+                else
+                {
+                    responseMessage = "differenz zum letzten Eintrag: " + decimalFormat.format(diff) + " kg";
+                }
             }
             else
             {

@@ -56,10 +56,16 @@ public class FitnesseService
 
     }
 
+    public void removeBodyWeightEntry(BodyWeightDto weightDto)
+    {
+        fitnesseRepository.delete(weightDto);
+    }
+
     private Long toMillis(LocalDateTime dateTime)
     {
         return dateTime.toInstant(ZoneOffset.UTC).toEpochMilli();
     }
+
 
 
 }
