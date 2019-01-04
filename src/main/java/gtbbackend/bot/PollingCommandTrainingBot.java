@@ -4,9 +4,9 @@ import gtbbackend.bot.command.*;
 import gtbbackend.fitnesse.FitnesseService;
 import gtbbackend.practice.PracticeRepository;
 import gtbbackend.practice.PracticeService;
-import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.bots.commandbot.TelegramLongPollingCommandBot;
-import org.telegram.telegrambots.logging.BotLogger;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.logging.BotLogger;
 
 import java.util.List;
 import java.util.stream.Collectors;

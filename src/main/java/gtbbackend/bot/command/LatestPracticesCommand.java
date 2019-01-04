@@ -4,10 +4,10 @@ import gtbbackend.bot.BotArgumentsParseUtils;
 import gtbbackend.bot.ResponseSender;
 import gtbbackend.practice.PracticeService;
 import gtbbackend.practice.dto.PracticeDto;
-import org.telegram.telegrambots.api.objects.Chat;
-import org.telegram.telegrambots.api.objects.User;
-import org.telegram.telegrambots.bots.AbsSender;
-import org.telegram.telegrambots.bots.commandbot.commands.BotCommand;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
