@@ -1,12 +1,12 @@
 @startuml
 
-[Training-Management] - http
-[gtbui]
-[Telegram-Bot-Message-Handler]
+[gtb]
+[gtbchart] - chart_api
 
-http <-- [gtbui]
-http <-- [Telegram-Bot-Message-Handler]
-[Telegram-Bot-Message-Handler] <-- telegram_bot_api
+
+parse_api <-- [gtb]
+chart_api <-- [gtb]
+[gtb] <-- telegram_bot_api
 
 
 @enduml
