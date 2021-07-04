@@ -36,10 +36,11 @@ public class MaxStrenghtTrainingCommand extends BotCommand
             StringBuilder maxPowerPlan = new StringBuilder();
             DecimalFormat decimalFormat = new DecimalFormat("0");
 
-            maxPowerPlan.append(decimalFormat.format(maxPower * 0.7) + " kg - 12 wdh\n");
-            maxPowerPlan.append(decimalFormat.format(maxPower * 0.75) + " kg - 10 wdh\n");
-            maxPowerPlan.append(decimalFormat.format(maxPower * 0.80) + " kg - 8 wdh\n");
-            maxPowerPlan.append(decimalFormat.format(maxPower * 0.85) + " kg - 6 wdh");
+            maxPowerPlan.append(decimalFormat.format(maxPower * 0.6) + " kg - 60%\n");
+            maxPowerPlan.append(decimalFormat.format(maxPower * 0.7) + " kg - 70%\n");
+            maxPowerPlan.append(decimalFormat.format(maxPower * 0.75) + " kg - 75%\n");
+            maxPowerPlan.append(decimalFormat.format(maxPower * 0.80) + " kg - 80%\n");
+            maxPowerPlan.append(decimalFormat.format(maxPower * 0.85) + " kg - 85%");
             responseSender.sendMessage(maxPowerPlan.toString());
         }
     }
